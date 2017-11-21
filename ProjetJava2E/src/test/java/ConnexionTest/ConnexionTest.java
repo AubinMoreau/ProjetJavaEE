@@ -5,14 +5,17 @@
  */
 package ConnexionTest;
 
+
 import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import javax.sql.DataSource;
 import model.DAO;
-
-
+import model.DataSourceFactory;
+import org.junit.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  *
@@ -23,7 +26,39 @@ public class ConnexionTest {
     private static Connection myConnection ;	
     private DAO myDAO;
     
+   @Before
+    public void setUp() throws SQLException {
+	myDataSource = DataSourceFactory.getDataSource();
+	myDAO = new DAO(myDataSource);
+	}
     
+    @Test
+    public void verifExistCustomer() throws SQLException {
+        String email = "jumboeagle@example.com";
+        String id = "1";
+        assertTrue(myDAO.verifClientConnexion(email, id));
+    }
+    
+    @Test
+    public void verifDifferentExistIdCustomer() throws SQLException {
+        String email = "jumboeagle@example.com";
+        String id = "2";
+        assertFalse(myDAO.verifClientConnexion(email, id));
+    }
+    
+    @Test
+    public void verifNotExistMailCustomer() throws SQLException {
+        String email = "juboeagle@example.com";
+        String id = "1";
+        assertFalse(myDAO.verifClientConnexion(email, id));
+    }
+    
+    @Test
+    public void verifNotExistIDCustomer() throws SQLException {
+        String email = "juboeagle@example.com";
+        String id = "-10";
+        assertFalse(myDAO.verifClientConnexion(email, id));
+    }
     
     public static DataSource getDataSource() throws SQLException {
 		org.apache.derby.jdbc.ClientDataSource ds = new org.apache.derby.jdbc.ClientDataSource();

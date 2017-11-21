@@ -13,8 +13,9 @@
     </head>
     <body>
         <h1>Connexion</h1>
+        <div style="color:red">${errorMessage}</div>
         <form action="ConnectionControleur" method="GET">
-            Login : </br><input type="email" name="login" /></br>
+            Login : </br><input name="login" /></br>
             Password : </br><input type="password" name="password" /></br>
             <input type="submit" name="action" value="Connexion" />
         </form>

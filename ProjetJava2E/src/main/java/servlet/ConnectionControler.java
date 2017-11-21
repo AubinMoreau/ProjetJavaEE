@@ -7,11 +7,19 @@ package servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import static java.lang.System.console;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import model.DAO;
+import model.DataSourceFactory;
+
 
 /**
  *
@@ -34,16 +42,51 @@ public class ConnectionControler extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ConnectionControler</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ConnectionControler at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+            try {
+                DAO dao = new DAO(DataSourceFactory.getDataSource());
+                
+                String action = request.getParameter("action");
+                String login = request.getParameter("login");
+                String password = request.getParameter("password");
+                String msgErr = "";
+                
+                if(action != null){
+                    //ACTION Une Connexion
+                    if(action.equals("Connexion")){
+                        if(login!=null && password!= null){
+                            try{
+                                if(dao.verifClientConnexion(login,password)){
+                                    // On a trouvé la combinaison login / password
+                                    // On stocke l'information dans la session
+                                    HttpSession session = request.getSession(true);
+                                    session.setAttribute("userName", "Didier");
+                                }else{// On positionne un message d'erreur pour l'afficher dans la JSP
+                                    request.setAttribute("errorMessage", "Login/Password incorrect");
+                                }
+                                
+                            } catch (SQLException e) {
+                                msgErr = e.getMessage();
+                            }
+                        }
+                    }
+                }
+                String userName = findUserInSession(request);
+                String jspView;
+		if (null == userName) { // L'utilisateur n'est pas connecté
+			// On choisit la page de login
+			jspView = "Connexion.jsp";
+
+		} else { // L'utilisateur est connecté
+			// On choisit la page d'affichage
+			jspView = "PageClient.jsp";
+		}
+		// On va vers la page choisie
+		request.getRequestDispatcher(jspView).forward(request, response);
+                
+            } catch (SQLException ex) {
+                Logger.getLogger(ConnectionControler.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -84,5 +127,9 @@ public class ConnectionControler extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
+    
+        private String findUserInSession(HttpServletRequest request) {
+		HttpSession session = request.getSession(false);
+		return (session == null) ? null : (String) session.getAttribute("login");
+	}
 }

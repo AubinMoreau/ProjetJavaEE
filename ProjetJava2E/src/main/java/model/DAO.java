@@ -27,23 +27,24 @@ public class DAO {
 		this.myDataSource = dataSource;
 	}
         
-        public void verifClientConnexion(CustomerEntity entite) throws SQLException {
-            int verif = 0;
-            String sql = "SELECT COUNT(*) AS Nombre FROM CUSTOMER WHERE CUSTOMER_ID=? AND EMAIL=?";
+        public boolean verifClientConnexion(String email,String id) throws SQLException {
+            boolean verif = false;
+            String sql = "SELECT COUNT(*) AS Nombre FROM CUSTOMER WHERE EMAIL=? AND CUSTOMER_ID=? ";
             try (Connection connection = myDataSource.getConnection();
                     PreparedStatement stmt = connection.prepareStatement(sql)){
                     
-                    stmt.setString(1,entite.getEmail());
-                    stmt.setInt(2,entite.getCustomerID());
+                    stmt.setString(1,email);
+                    stmt.setString(2,id);
                     
                     try(ResultSet resultSet = stmt.executeQuery()){
                         if(resultSet.next()){
-                            verif = resultSet.getInt("Nombre");
+                            verif = resultSet.getInt("Nombre")==1;
                         }
                     }catch (SQLException ex) {
 			Logger.getLogger("DAO").log(Level.SEVERE, null, ex);
 			throw new SQLException(ex.getMessage());
             }
+            return verif;
         }
 }
 }
