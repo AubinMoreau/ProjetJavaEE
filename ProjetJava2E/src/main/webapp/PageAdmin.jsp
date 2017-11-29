@@ -1,6 +1,6 @@
 <%-- 
-    Document   : PageClient
-    Created on : 21 nov. 2017, 15:29:12
+    Document   : PageAdmin
+    Created on : 28 nov. 2017, 20:47:22
     Author     : Nicolas
 --%>
 
@@ -10,12 +10,11 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>${userName}</title>
+        <title>${userAdmin}</title>
     </head>
     <body>
-        <h1>Bienvenue ${userName}</h1>
-        
-        <form action="<c:url value="/" />" method="POST"/> 
+        <h1>Bienvenue ${userAdmin}</h1>
+        <form action="<c:url value="/" />" method="POST" >
             <input type='submit' name='action' value='deconnexion'>
 	</form>
     </body>

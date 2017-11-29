@@ -40,7 +40,7 @@ public class ConnexionTest {
     }
     
     @Test
-    public void verifDifferentExistIdCustomer() throws SQLException {
+    public void verifDifferentIdExistCustomer() throws SQLException {
         String email = "jumboeagle@example.com";
         String id = "2";
         assertFalse(myDAO.verifClientConnexion(email, id));

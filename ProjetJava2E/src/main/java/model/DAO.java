@@ -47,4 +47,27 @@ public class DAO {
             return verif;
         }
 }
+        
+        public String nomClient(String email,String id) throws SQLException{
+            String result = "";
+            String sql = "SELECT NAME FROM CUSTOMER WHERE EMAIL=? AND CUSTOMER_ID=? ";
+            
+            try (Connection connection = myDataSource.getConnection();
+                    PreparedStatement stmt = connection.prepareStatement(sql)){
+                    
+                    stmt.setString(1,email);
+                    stmt.setString(2,id);
+                    
+                    try(ResultSet resultSet = stmt.executeQuery()){
+                        if(resultSet.next()){
+                            result = resultSet.getString("NAME");
+                        }
+            }catch (SQLException ex) {
+			Logger.getLogger("DAO").log(Level.SEVERE, null, ex);
+			throw new SQLException(ex.getMessage());
+                    }
+            return result;
+            }
+        }
 }
+
