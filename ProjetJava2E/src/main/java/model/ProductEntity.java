@@ -12,17 +12,15 @@ package model;
 public class ProductEntity {
     
     private int productID;
-    private int productCode;
+    private String productCode;
     private float price;
-    private int quantityHand;
     private String available;
     private String description;
     
-    public ProductEntity(int productID, int productCode, float price, int quantityHand, String available, String description){
+    public ProductEntity(int productID, String productCode, float price, String available, String description){
         this.productID = productID;
         this.productCode = productCode;
         this.price = price;
-        this.quantityHand = quantityHand;
         this.available = available;
         this.description = description;
     }
@@ -31,16 +29,12 @@ public class ProductEntity {
         return productID;
     }
 
-    public int getProductCode() {
+    public String getProductCode() {
         return productCode;
     }
 
     public float getPrice() {
         return price;
-    }
-
-    public int getQuantityHand() {
-        return quantityHand;
     }
 
     public String getAvailable() {
@@ -55,16 +49,12 @@ public class ProductEntity {
         this.productID = productID;
     }
 
-    public void setProductCode(int productCode) {
+    public void setProductCode(String productCode) {
         this.productCode = productCode;
     }
 
     public void setPrice(float price) {
         this.price = price;
-    }
-
-    public void setQuantityHand(int quantityHand) {
-        this.quantityHand = quantityHand;
     }
 
     public void setAvailable(String available) {

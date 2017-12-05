@@ -6,6 +6,7 @@
 package servlet;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -37,6 +38,7 @@ public class ConnectionControler extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
+        try (PrintWriter out = response.getWriter()){
         //Action appelée ? 
         String action = request.getParameter("action");
 		if (null != action) {
@@ -56,7 +58,7 @@ public class ConnectionControler extends HttpServlet {
                 String userAdmin = findAdminInSession(request);
 		String jspView;
 		if (userName != null){
-                    jspView = "PageClient.jsp";
+                    jspView = "Page Client.jsp";
                 }else {
                     jspView = "Connexion.jsp";
                 }
@@ -67,6 +69,7 @@ public class ConnectionControler extends HttpServlet {
 		request.getRequestDispatcher(jspView).forward(request, response);
 
 	}
+    }
     
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -139,6 +142,7 @@ public class ConnectionControler extends HttpServlet {
                         //Nom du client (Non admin)
                         String name = dao.nomClient(login, password);
                         session.setAttribute("userName",name);
+                        session.setAttribute("id",password);
                             }else { // On positionne un message d'erreur pour l'afficher dans la JSP
                                 request.setAttribute("errorMessage", "Login/Password incorrect");
                             }
