@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.DAO;
 import model.DataSourceFactory;
+import model.PurchaseEntity;
 
 
 /**
@@ -49,6 +50,9 @@ public class ConnectionControler extends HttpServlet {
 				case "deconnexion":
 					doLogout(request);
 					break;
+                                case "Commander":
+                                        AjouterCommande(request);
+                                        break;
 			}
 		}
 
@@ -165,4 +169,17 @@ public class ConnectionControler extends HttpServlet {
 		HttpSession session = request.getSession(false);
 		return (session == null) ? null : (String) session.getAttribute("userAdmin");
 	}
+        private void AjouterCommande(HttpServletRequest request) throws SQLException{
+            DAO dao = new DAO(DataSourceFactory.getDataSource());
+            
+            int quantite = Integer.parseInt(request.getParameter("quantite"));
+            float fraisport = Float.parseFloat(request.getParameter("fraisport"));
+            String dateAchat = request.getParameter("dateAchat");
+            String dateLivraison = request.getParameter("dateLivraison");
+            String description = request.getParameter("produit");
+            
+            PurchaseEntity commande = new PurchaseEntity(1,quantite,30,fraisport,dateAchat,dateLivraison,description);
+            
+            dao.ajoutCommande(commande);
+        }
 }

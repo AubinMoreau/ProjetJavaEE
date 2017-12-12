@@ -75,7 +75,7 @@ public class DAO {
         public List<PurchaseEntity> produitClient(String id) throws SQLException {
             ArrayList<PurchaseEntity> result = new ArrayList<>();
             
-            String sql ="SELECT PURCHASE_ORDER.ORDER_NUM,PRODUCT.DESCRIPTION,PRODUCT.PURCHASE_COST,PURCHASE_ORDER.QUANTITY,PURCHASE_ORDER.SHIPPING_COST,PURCHASE_ORDER.SHIPPING_DATE \n" +
+            String sql ="SELECT PURCHASE_ORDER.ORDER_NUM,PRODUCT.DESCRIPTION,PRODUCT.PURCHASE_COST,PURCHASE_ORDER.QUANTITY,PURCHASE_ORDER.SHIPPING_COST,PURCHASE_ORDER.SALES_DATE,PURCHASE_ORDER.SHIPPING_DATE \n" +
                         "FROM PURCHASE_ORDER\n" +
                         "    INNER JOIN PRODUCT\n" +
                         "    ON PURCHASE_ORDER.PRODUCT_ID = PRODUCT.PRODUCT_ID\n" +
@@ -92,10 +92,11 @@ public class DAO {
                             int quantite = rs.getInt("QUANTITY");
                             float prix = rs.getFloat("PURCHASE_COST");
                             float fdp = rs.getFloat("SHIPPING_COST");
+                            String dateach = rs.getString("SALES_DATE");
                             String dateliv = rs.getString("SHIPPING_DATE");
                             String description = rs.getString("DESCRIPTION");
                             
-                            result.add(new PurchaseEntity(order,quantite,prix,fdp,dateliv,description));
+                            result.add(new PurchaseEntity(order,quantite,prix,fdp,dateach,dateliv,description));
                             
                         }
                     }catch (SQLException ex) {
@@ -105,5 +106,33 @@ public class DAO {
                 return result;
         }
 }
+        public void ajoutCommande(PurchaseEntity commande) throws SQLException {
+            
+            String sql = "SELECT MAX(order_num)+1 FROM PURCHASE_ORDER";
+            int newId =-1;
+            try (Connection connection = myDataSource.getConnection();
+                    PreparedStatement stmt = connection.prepareStatement(sql)){
+                
+                try(ResultSet rs = stmt.executeQuery()){
+                        if(rs.next()){
+                         newId = rs.getInt("ORDER_NUM");   
+                        }
+                }
+            }
+            String sql2 = "INSERT INTO PURCHASE_ORDER VALUES(?,?,?,?,?,?,?)";
+            try (Connection connection = myDataSource.getConnection();
+                    PreparedStatement stmt = connection.prepareStatement(sql)){
+                
+                stmt.setInt(1, newId);
+                stmt.setInt(2,commande.getQuantite());
+                stmt.setFloat(3,commande.getPrix());
+                stmt.setFloat(4,commande.getFraisport());
+                stmt.setString(5,commande.getDateachat());
+                stmt.setString(6,commande.getDatelivraison());
+                stmt.setString(7,commande.getDescription());
+                
+                stmt.executeUpdate();
+            }
+     }
 }
 

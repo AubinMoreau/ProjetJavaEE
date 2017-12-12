@@ -14,16 +14,26 @@ public class PurchaseEntity {
     private int quantite;
     private float prix;
     private float fraisport;
+    private String dateachat;
     private String datelivraison;
     private String description;
     
-    public PurchaseEntity(int order, int quantite, float prix, float fdp, String dateliv, String descrip){
+    public PurchaseEntity(int order, int quantite, float prix, float fdp, String dateach,String dateliv, String descrip){
         this.orderNum = order;
         this.quantite = quantite;
         this.prix = prix;
         this.fraisport = fdp;
+        this.dateachat = dateach;
         this.datelivraison = dateliv;
         this.description = descrip;
+    }
+
+    public void setDateachat(String dateachat) {
+        this.dateachat = dateachat;
+    }
+
+    public String getDateachat() {
+        return dateachat;
     }
 
     public void setOrderNum(int orderNum) {
