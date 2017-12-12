@@ -4,11 +4,14 @@
     Author     : aubin
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
         <title>Graphiques des ventes</title>
+        <link rel="stylesheet" href="AdminCSS.css" />
+        <link rel="icon" type="image/png" href="Pictures/favicon_admin.ico" />
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 	<!-- On charge l'API Google -->
 	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
@@ -128,14 +131,18 @@
 	</script>
     </head>
     <body>
-        <p> Bienvenue ${userAdmin} </p>
+        <h1> Bienvenue ${userAdmin} </h1>
         <form action="ServletGraphiques" method="POST">   
         Date Début : <input type="date" name="dateDebut"></br>
         Date fin : <input type="date" name="datefin"></br>
         </form>
 	<!-- Le graphique apparaît ici -->
-	<div id="piechart" style="width: 400px; height: 400px; display:inline-block;"></div>
-        <div id="piechart2" style="width: 400px; height: 400px; display:inline-block;"></div>
-        <div id="piechart3" style="width: 400px; height: 400px; display:inline-block;"></div>
+	<div id="piechart" style="width: 400px; height: 400px; display: inline-block;"></div>
+        <div id="piechart2" style="width: 400px; height: 400px; display: inline-block;"></div>
+        <div id="piechart3" style="width: 400px; height: 400px; display: inline-block;"></div>
+        
+        </br><form action="<c:url value="/" />" methode="POST" id="deco">
+            <input type='submit' name='action' value='deconnexion'>
+	</form>
     </body>
 </html>

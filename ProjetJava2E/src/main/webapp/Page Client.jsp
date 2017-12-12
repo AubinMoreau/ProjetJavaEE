@@ -16,11 +16,11 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link rel="stylesheet" href="ClientCSS.css" />
+        <link rel="stylesheet" href="Client.css" />
         <title>${userName}</title>
         <link rel="icon" type="image/png" href="Pictures/favicon_user.png" />
     </head>
-    <body>
+    <body style="background-image: url(Pictures/background.jpg);">
         <sql:query var="commande">
             SELECT PURCHASE_ORDER.ORDER_NUM,PRODUCT.DESCRIPTION,PRODUCT.PURCHASE_COST,PURCHASE_ORDER.QUANTITY,PURCHASE_ORDER.SHIPPING_COST,
             PURCHASE_ORDER.SHIPPING_DATE,PRODUCT.PRODUCT_ID,PURCHASE_ORDER.SALES_DATE

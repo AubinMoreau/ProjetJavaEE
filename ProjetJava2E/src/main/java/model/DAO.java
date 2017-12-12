@@ -151,7 +151,7 @@ public class DAO {
                                 "FROM PRODUCT INNER JOIN PURCHASE_ORDER ON PRODUCT.PRODUCT_ID = PURCHASE_ORDER.PRODUCT_ID \n" +
                                 "INNER JOIN PRODUCT_CODE ON PRODUCT_CODE.PROD_CODE=PRODUCT.PRODUCT_CODE\n" +
                                 "WHERE SALES_DATE BETWEEN ? AND ? " +
-                                "GROUP BY PRODUCT_CODE.DESCRIPTION";
+                                "GROUP BY PRODUCT_CODE.DESCRIPTION ORDER BY TOTAL";
 		try (Connection connection = myDataSource.getConnection();
                     PreparedStatement stmt = connection.prepareStatement(sql);
                    ) {  stmt.setString(1,dateDebut);
@@ -178,7 +178,7 @@ public class DAO {
                     "FROM PRODUCT INNER JOIN PURCHASE_ORDER ON PRODUCT.PRODUCT_ID = PURCHASE_ORDER.PRODUCT_ID \n" +
                     "INNER JOIN CUSTOMER ON CUSTOMER.CUSTOMER_ID = PURCHASE_ORDER.CUSTOMER_ID\n" +
                     "WHERE SALES_DATE BETWEEN ? AND ? " +
-                    "GROUP BY CUSTOMER.ZIP";
+                    "GROUP BY CUSTOMER.ZIP ORDER BY TOTAL";
 		try (Connection connection = myDataSource.getConnection();
                     PreparedStatement stmt = connection.prepareStatement(sql);
                    ) {  stmt.setString(1,dateDebut);
@@ -204,7 +204,7 @@ public class DAO {
                         + "FROM PRODUCT INNER JOIN PURCHASE_ORDER ON PRODUCT.PRODUCT_ID = PURCHASE_ORDER.PRODUCT_ID "
                         + "INNER JOIN CUSTOMER ON CUSTOMER.CUSTOMER_ID = PURCHASE_ORDER.CUSTOMER_ID "
                         + "WHERE SALES_DATE BETWEEN ? AND ? "
-                        + "GROUP BY NAME";
+                        + "GROUP BY NAME ORDER BY BENEF";
 		try (Connection connection = myDataSource.getConnection();
                     PreparedStatement stmt = connection.prepareStatement(sql);
                    ) {  stmt.setString(1,dateDebut);

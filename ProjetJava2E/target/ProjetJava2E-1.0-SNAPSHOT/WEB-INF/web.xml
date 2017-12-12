@@ -18,7 +18,7 @@
         </init-param>
         <init-param>
             <param-name>ID</param-name>
-            <param-value>Mr. Admin</param-value>
+            <param-value>Mr Admin</param-value>
         </init-param>
     </servlet>
     
