@@ -152,15 +152,9 @@ public class DAO {
                                 "INNER JOIN PRODUCT_CODE ON PRODUCT_CODE.PROD_CODE=PRODUCT.PRODUCT_CODE\n" +
                                 "WHERE SALES_DATE BETWEEN ? AND ? " +
                                 "GROUP BY PRODUCT_CODE.DESCRIPTION";
-              /*  String sql = "SELECT SUM(QUANTITY*PURCHASE_COST) AS TOTAL,CUSTOMER.ZIP\n" +
-                    "FROM PRODUCT INNER JOIN PURCHASE_ORDER ON PRODUCT.PRODUCT_ID = PURCHASE_ORDER.PRODUCT_ID \n" +
-                    "INNER JOIN CUSTOMER ON CUSTOMER.CUSTOMER_ID = PURCHASE_ORDER.CUSTOMER_ID\n" +
-                    "WHERE SALES_DATE BETWEEN ? AND ? " +
-                    "GROUP BY CUSTOMER.ZIP";*/
 		try (Connection connection = myDataSource.getConnection();
                     PreparedStatement stmt = connection.prepareStatement(sql);
-                   ) {  
-                        stmt.setString(1,dateDebut);
+                   ) {  stmt.setString(1,dateDebut);
                         stmt.setString(2,dateFin);
                         ResultSet rs = stmt.executeQuery();                         
 			while (rs.next()) {
@@ -169,6 +163,33 @@ public class DAO {
 				float prix = rs.getFloat("TOTAL");
 				// On l'ajoute à la liste des résultats
 				result.put(description, prix);
+			}
+		}
+		return result;
+	}
+       
+       
+       public Map<Float, Float> PriceLocalisationEntity(String dateDebut, String dateFin) throws Exception {
+                Map<Float, Float> result = new HashMap<>();
+                if (dateDebut == null) dateDebut="2010-05-24";
+                if (dateFin == null) dateFin="2012-05-24";
+		// Une requête SQL paramétrée
+		String sql = "SELECT SUM(QUANTITY*PURCHASE_COST) AS TOTAL,CUSTOMER.ZIP\n" +
+                    "FROM PRODUCT INNER JOIN PURCHASE_ORDER ON PRODUCT.PRODUCT_ID = PURCHASE_ORDER.PRODUCT_ID \n" +
+                    "INNER JOIN CUSTOMER ON CUSTOMER.CUSTOMER_ID = PURCHASE_ORDER.CUSTOMER_ID\n" +
+                    "WHERE SALES_DATE BETWEEN ? AND ? " +
+                    "GROUP BY CUSTOMER.ZIP";
+		try (Connection connection = myDataSource.getConnection();
+                    PreparedStatement stmt = connection.prepareStatement(sql);
+                   ) {  stmt.setString(1,dateDebut);
+                        stmt.setString(2,dateFin);
+                        ResultSet rs = stmt.executeQuery();                         
+			while (rs.next()) {
+				// On récupère les champs nécessaires de l'enregistrement courant
+				float codePostal = (float) rs.getInt("ZIP");
+				float prix = rs.getFloat("TOTAL");
+				// On l'ajoute à la liste des résultats
+				result.put(codePostal, prix);
 			}
 		}
 		return result;
