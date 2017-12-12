@@ -67,7 +67,7 @@ public class ConnectionControler extends HttpServlet {
                     jspView = "Connexion.jsp";
                 }
                 if(userAdmin != null){
-                    jspView = "PageAdmin.jsp";
+                    jspView = "GraphiqueParCatégorie.jsp";
                 }
 		// On va vers la page choisie
 		request.getRequestDispatcher(jspView).forward(request, response);
@@ -173,13 +173,15 @@ public class ConnectionControler extends HttpServlet {
             DAO dao = new DAO(DataSourceFactory.getDataSource());
             
             int quantite = Integer.parseInt(request.getParameter("quantite"));
+            int id = Integer.parseInt(request.getParameter("id"));
             float fraisport = Float.parseFloat(request.getParameter("fraisport"));
             String dateAchat = request.getParameter("dateAchat");
             String dateLivraison = request.getParameter("dateLivraison");
             String description = request.getParameter("produit");
             
-            PurchaseEntity commande = new PurchaseEntity(1,quantite,30,fraisport,dateAchat,dateLivraison,description);
+            PurchaseEntity commande = new PurchaseEntity(1,id,quantite,30,fraisport,dateAchat,dateLivraison,description);
             
             dao.ajoutCommande(commande);
+            
         }
 }

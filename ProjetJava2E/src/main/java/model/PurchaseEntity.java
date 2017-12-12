@@ -5,12 +5,15 @@
  */
 package model;
 
+import java.util.logging.Logger;
+
 /**
  *
  * @author Nicolas
  */
 public class PurchaseEntity {
     private int orderNum;
+    private int custom_id;
     private int quantite;
     private float prix;
     private float fraisport;
@@ -18,14 +21,23 @@ public class PurchaseEntity {
     private String datelivraison;
     private String description;
     
-    public PurchaseEntity(int order, int quantite, float prix, float fdp, String dateach,String dateliv, String descrip){
+    public PurchaseEntity(int order,int customid, int quantite, float prix, float fdp, String dateach,String dateliv, String descrip){
         this.orderNum = order;
+        this.custom_id = customid;
         this.quantite = quantite;
         this.prix = prix;
         this.fraisport = fdp;
         this.dateachat = dateach;
         this.datelivraison = dateliv;
         this.description = descrip;
+    }
+
+    public void setCustom_id(int custom_id) {
+        this.custom_id = custom_id;
+    }
+
+    public int getCustom_id() {
+        return custom_id;
     }
 
     public void setDateachat(String dateachat) {

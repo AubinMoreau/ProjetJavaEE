@@ -10,7 +10,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sql.DataSource;
@@ -71,7 +73,12 @@ public class DAO {
             return result;
             }
         }
-        
+        /**
+         * Renvoie la liste des produits du client passé en paramètre
+         * @param id
+         * @return
+         * @throws SQLException 
+         */
         public List<PurchaseEntity> produitClient(String id) throws SQLException {
             ArrayList<PurchaseEntity> result = new ArrayList<>();
             
@@ -96,7 +103,7 @@ public class DAO {
                             String dateliv = rs.getString("SHIPPING_DATE");
                             String description = rs.getString("DESCRIPTION");
                             
-                            result.add(new PurchaseEntity(order,quantite,prix,fdp,dateach,dateliv,description));
+                            result.add(new PurchaseEntity(order,Integer.parseInt(id),quantite,prix,fdp,dateach,dateliv,description));
                             
                         }
                     }catch (SQLException ex) {
@@ -134,5 +141,37 @@ public class DAO {
                 stmt.executeUpdate();
             }
      }
+        
+        public Map<String, Float> PriceCategoryEntity(String dateDebut, String dateFin) throws Exception {
+                Map<String, Float> result = new HashMap<>();
+                if (dateDebut == null) dateDebut="2010-05-24";
+                if (dateFin == null) dateFin="2012-05-24";
+		// Une requête SQL paramétrée
+		String sql = "SELECT SUM(QUANTITY*PURCHASE_COST) AS TOTAL,PRODUCT_CODE.DESCRIPTION\n" +
+                                "FROM PRODUCT INNER JOIN PURCHASE_ORDER ON PRODUCT.PRODUCT_ID = PURCHASE_ORDER.PRODUCT_ID \n" +
+                                "INNER JOIN PRODUCT_CODE ON PRODUCT_CODE.PROD_CODE=PRODUCT.PRODUCT_CODE\n" +
+                                "WHERE SALES_DATE BETWEEN ? AND ? " +
+                                "GROUP BY PRODUCT_CODE.DESCRIPTION";
+              /*  String sql = "SELECT SUM(QUANTITY*PURCHASE_COST) AS TOTAL,CUSTOMER.ZIP\n" +
+                    "FROM PRODUCT INNER JOIN PURCHASE_ORDER ON PRODUCT.PRODUCT_ID = PURCHASE_ORDER.PRODUCT_ID \n" +
+                    "INNER JOIN CUSTOMER ON CUSTOMER.CUSTOMER_ID = PURCHASE_ORDER.CUSTOMER_ID\n" +
+                    "WHERE SALES_DATE BETWEEN ? AND ? " +
+                    "GROUP BY CUSTOMER.ZIP";*/
+		try (Connection connection = myDataSource.getConnection();
+                    PreparedStatement stmt = connection.prepareStatement(sql);
+                   ) {  
+                        stmt.setString(1,dateDebut);
+                        stmt.setString(2,dateFin);
+                        ResultSet rs = stmt.executeQuery();                         
+			while (rs.next()) {
+				// On récupère les champs nécessaires de l'enregistrement courant
+				String description = rs.getString("DESCRIPTION");
+				float prix = rs.getFloat("TOTAL");
+				// On l'ajoute à la liste des résultats
+				result.put(description, prix);
+			}
+		}
+		return result;
+	}
 }
 

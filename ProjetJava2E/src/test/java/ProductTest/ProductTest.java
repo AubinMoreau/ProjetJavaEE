@@ -7,9 +7,11 @@ package ProductTest;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 import javax.sql.DataSource;
 import model.DAO;
 import model.DataSourceFactory;
+import model.PurchaseEntity;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -42,6 +44,13 @@ public class ProductTest {
     public void verifPurchaseForNoCustomer() throws SQLException {
         String id ="105";
         assertFalse(myDAO.produitClient(id).size()!=0);
+    }
+    
+    @Test
+    public void verifAjoutCommande() throws SQLException{
+        List<PurchaseEntity> commande = myDAO.produitClient("1");
+        int nb_commande = commande.size();
+        assertTrue(nb_commande==1);
     }
     
     public static DataSource getDataSource() throws SQLException {

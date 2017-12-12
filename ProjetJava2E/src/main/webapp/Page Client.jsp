@@ -53,7 +53,7 @@
             <label for="dateL"> Date de livraison</label>
             <input type="date" name="dateLivraison" /></br>
             
-            </br><input type="submit" name="action" value="Commander" />
+            </br><input type="submit" name="action" value="Commander"/>
             </fieldset>
         </form>    
                 

@@ -22,9 +22,19 @@
         </init-param>
     </servlet>
     
+    <servlet>
+        <servlet-name>ServletGraphiques</servlet-name>
+        <servlet-class>servlet.ServletGraphiques</servlet-class>
+    </servlet>
+    
     <servlet-mapping>
             <servlet-name>ConnectionControler</servlet-name>
             <url-pattern>/ConnectionControler</url-pattern>
+    </servlet-mapping>
+    
+    <servlet-mapping>
+            <servlet-name>ServletGraphiques</servlet-name>
+            <url-pattern>/ServletGraphiques</url-pattern>
     </servlet-mapping>
     
     <session-config>
