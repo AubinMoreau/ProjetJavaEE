@@ -44,7 +44,6 @@ public class ServletGraphiqueLocalisation extends HttpServlet {
 		try {
                         String dateDebut = request.getParameter("dateDebut");
                         String datefin = request.getParameter("datefin");
-			//resultat.put("records", dao.PriceCategoryEntity(dateDebut,datefin));
                         resultat.put("records", dao.PriceLocalisationEntity(dateDebut,datefin));
 		} catch (SQLException ex) {
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);

@@ -52,14 +52,6 @@
 				error: showError
 			});
 		}
-		
-		// Fonction qui traite les erreurs de la requête
-		function showError(xhr, status, message) {
-			alert("Erreur: " + status + " : " + message);
-		}
-                
-                
-                
                 //SECOND GRAPHE
                 function drawChart2(dataArray) {
 			var data = google.visualization.arrayToDataTable(dataArray);
@@ -81,19 +73,18 @@
 				success: // La fonction qui traite les résultats
 					function (result) {
 						// On reformate le résultat comme un tableau
-						var chartData = [];
+						var chartData2 = [];
 						// On met le descriptif des données
-						chartData.push(["Localisation", "Ventes"]);
+						chartData2.push(["Localisation", "Ventes"]);
 						for(var client in result.records) {
-							chartData.push([client,result.records[client]]);
+							chartData2.push([client,result.records[client]]);
 						}
 						// On dessine le graphique
-						drawChart2(chartData);
+						drawChart2(chartData2);
 					},
 				error: showError
 			});
 		}
-		
                 
                 //TROISIEME GRAPHE
                 function drawChart3(dataArray) {
@@ -128,9 +119,16 @@
 				error: showError
 			});
 		}
+		
+		// Fonction qui traite les erreurs de la requête
+		function showError(xhr, status, message) {
+			alert("Erreur: " + status + " : " + message);
+		}
+		    
 	</script>
     </head>
     <body>
+        <p> Bienvenue ${userAdmin} </p>
         <form action="ServletGraphiques" method="POST">   
         Date Début : <input type="date" name="dateDebut"></br>
         Date fin : <input type="date" name="datefin"></br>

@@ -35,7 +35,7 @@
     <servlet>
         <servlet-name>ServletGraphiqueNom</servlet-name>
         <servlet-class>servlet.ServletGraphiqueNom</servlet-class>
-	</servlet>
+    </servlet>
 
     <servlet-mapping>
             <servlet-name>ConnectionControler</servlet-name>
