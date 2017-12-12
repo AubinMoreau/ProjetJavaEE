@@ -18,14 +18,15 @@
 		// Après le chargement de la page, on fait l'appel AJAX
 		google.setOnLoadCallback(doAjax);
 		google.setOnLoadCallback(doAjax2);
+                google.setOnLoadCallback(doAjax3);
                 
 		function drawChart(dataArray) {
 			var data = google.visualization.arrayToDataTable(dataArray);
 			var options = {
 				title: 'Ventes par catégorie',
 				is3D: true,
-                                width:450,
-                                height:450
+                                width:400,
+                                height:400
 			};
 			var chart = new google.visualization.PieChart(document.getElementById('piechart'));
 			chart.draw(data, options);
@@ -65,13 +66,11 @@
 			var options = {
 				title: 'Ventes par localisation',
 				is3D: true,
-                                width:450,
-                                height:450
+                                width:400,
+                                height:400
 			};
 			var chart2 = new google.visualization.PieChart(document.getElementById('piechart2'));
-                        var chart3 = new google.visualization.PieChart(document.getElementById('piechart3'));
 			chart2.draw(data, options);
-                        chart3.draw(data, options);
 		}
 
 		// Afficher les ventes par client
@@ -95,9 +94,39 @@
 			});
 		}
 		
-		// Fonction qui traite les erreurs de la requête
-		function showError(xhr, status, message) {
-			alert("Erreur: " + status + " : " + message);
+                
+                //TROISIEME GRAPHE
+                function drawChart3(dataArray) {
+			var data = google.visualization.arrayToDataTable(dataArray);
+			var options = {
+				title: 'Ventes par nom',
+				is3D: true,
+                                width:400,
+                                height:400
+			};
+                        var chart3 = new google.visualization.PieChart(document.getElementById('piechart3'));
+                        chart3.draw(data, options);
+		}
+
+		// Afficher les ventes par client
+		function doAjax3() {
+			$.ajax({
+				url: "ServletGraphiqueNom",
+				dataType: "json",
+				success: // La fonction qui traite les résultats
+					function (result) {
+						// On reformate le résultat comme un tableau
+						var chartData = [];
+						// On met le descriptif des données
+						chartData.push(["Nom", "Ventes"]);
+						for(var client in result.records) {
+							chartData.push([client,result.records[client]]);
+						}
+						// On dessine le graphique
+						drawChart3(chartData);
+					},
+				error: showError
+			});
 		}
 	</script>
     </head>
@@ -107,8 +136,8 @@
         Date fin : <input type="date" name="datefin"></br>
         </form>
 	<!-- Le graphique apparaît ici -->
-	<div id="piechart" style="width: 450px; height: 450px; display:inline-block;"></div>
-        <div id="piechart3" style="width: 450px; height: 450px; display:inline-block;"></div>
-        <div id="piechart2" style="width: 450px; height: 450px; display:inline-block;"></div>
+	<div id="piechart" style="width: 400px; height: 400px; display:inline-block;"></div>
+        <div id="piechart2" style="width: 400px; height: 400px; display:inline-block;"></div>
+        <div id="piechart3" style="width: 400px; height: 400px; display:inline-block;"></div>
     </body>
 </html>
