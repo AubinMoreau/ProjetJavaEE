@@ -194,5 +194,32 @@ public class DAO {
 		}
 		return result;
 	}
+	
+	public Map<String, Float> TurnoverClient(String dateDebut, String dateFin) throws Exception {
+                Map<String, Float> result = new HashMap<>();
+                if (dateDebut == null) dateDebut="2010-05-24";
+                if (dateFin == null) dateFin="2012-05-24";
+		// Une requête SQL paramétrée
+		String sql = "SELECT SUM(QUANTITY*PURCHASE_COST) AS BENEF,NAME "
+                        + "FROM PRODUCT INNER JOIN PURCHASE_ORDER ON PRODUCT.PRODUCT_ID = PURCHASE_ORDER.PRODUCT_ID "
+                        + "INNER JOIN CUSTOMER ON CUSTOMER.CUSTOMER_ID = PURCHASE_ORDER.CUSTOMER_ID "
+                        + "WHERE SALES_DATE BETWEEN ? AND ? "
+                        + "GROUP BY NAME";
+		try (Connection connection = myDataSource.getConnection();
+                    PreparedStatement stmt = connection.prepareStatement(sql);
+                   ) {  stmt.setString(1,dateDebut);
+                        stmt.setString(2,dateFin);
+                        ResultSet rs = stmt.executeQuery();                         
+			while (rs.next()) {
+				// On récupère les champs nécessaires de l'enregistrement courant
+				String nom = rs.getString("NAME");
+				float prix = rs.getFloat("BENEF");
+				// On l'ajoute à la liste des résultats
+				result.put(nom, prix);
+			}
+		}
+		return result;
+	}
+	
 }
 
