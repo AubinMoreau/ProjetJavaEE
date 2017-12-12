@@ -26,7 +26,17 @@
         <servlet-name>ServletGraphiques</servlet-name>
         <servlet-class>servlet.ServletGraphiques</servlet-class>
     </servlet>
-    
+	
+    <servlet>
+        <servlet-name>ServletGraphiqueLocalisation</servlet-name>
+        <servlet-class>servlet.ServletGraphiqueLocalisation</servlet-class>
+    </servlet>
+	
+    <servlet>
+        <servlet-name>ServletGraphiqueNom</servlet-name>
+        <servlet-class>servlet.ServletGraphiqueNom</servlet-class>
+	</servlet>
+
     <servlet-mapping>
             <servlet-name>ConnectionControler</servlet-name>
             <url-pattern>/ConnectionControler</url-pattern>
@@ -36,11 +46,17 @@
             <servlet-name>ServletGraphiques</servlet-name>
             <url-pattern>/ServletGraphiques</url-pattern>
     </servlet-mapping>
+	
     <servlet-mapping>
         <servlet-name>ServletGraphiqueLocalisation</servlet-name>
         <url-pattern>/ServletGraphiqueLocalisation</url-pattern>
     </servlet-mapping>
-    
+	
+    <servlet-mapping>
+        <servlet-name>ServletGraphiqueNom</servlet-name>
+        <url-pattern>/ServletGraphiqueNom</url-pattern>
+    </servlet-mapping>
+	
     <session-config>
         <session-timeout>
             1
