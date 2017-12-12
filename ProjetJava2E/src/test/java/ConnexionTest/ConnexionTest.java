@@ -59,7 +59,33 @@ public class ConnexionTest {
         String id = "-10";
         assertFalse(myDAO.verifClientConnexion(email, id));
     }
+    @Test
+    public void correctNomClient() throws SQLException {
+        String email = "jumboeagle@example.com";
+        String id = "1";
+        assertTrue(myDAO.nomClient(email, id).equals("Jumbo Eagle Corp"));
+    }
     
+    @Test
+    public void idIncorectNomClient() throws SQLException {
+        String email = "jumboeagle@example.com";
+        String id = "2";
+        assertFalse(myDAO.nomClient(email, id).equals("Jumbo Eagle Corp"));
+    }
+    
+    @Test
+    public void mailIncorectNomClient() throws SQLException {
+        String email = "juboeagle@example.com";
+        String id = "1";
+        assertFalse(myDAO.nomClient(email, id).equals("Jumbo Eagle Corp"));
+    }
+    
+    @Test
+    public void inCorrectNomClient() throws SQLException {
+        String email = "juboeagle@example.com";
+        String id = "-10";
+        assertFalse(myDAO.nomClient(email, id).equals("Jumbo Eagle Corp"));
+    }
     public static DataSource getDataSource() throws SQLException {
 		org.apache.derby.jdbc.ClientDataSource ds = new org.apache.derby.jdbc.ClientDataSource();
 		ds.setDatabaseName("sample");
