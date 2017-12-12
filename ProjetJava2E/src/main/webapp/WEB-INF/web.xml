@@ -36,6 +36,10 @@
             <servlet-name>ServletGraphiques</servlet-name>
             <url-pattern>/ServletGraphiques</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServletGraphiqueLocalisation</servlet-name>
+        <url-pattern>/ServletGraphiqueLocalisation</url-pattern>
+    </servlet-mapping>
     
     <session-config>
         <session-timeout>
