@@ -10,16 +10,16 @@ package model;
  * @author aubin
  */
 public class PriceLocalisationEntity {
-    private float  codePostal;
+    private int  codePostal;
     
     private float prix;
 
-    public PriceLocalisationEntity(float codePostal, float prix ){
+    public PriceLocalisationEntity(int codePostal, float prix ){
     this.codePostal = codePostal;
     this.prix = prix;
 }
     
-    public float getCodePostal() {
+    public int getCodePostal() {
         return codePostal;
     }
 
@@ -27,3 +27,4 @@ public class PriceLocalisationEntity {
         return prix;
     }
 }
+
