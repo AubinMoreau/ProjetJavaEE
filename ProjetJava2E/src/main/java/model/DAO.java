@@ -169,8 +169,8 @@ public class DAO {
 	}
        
        
-       public Map<Float, Float> PriceLocalisationEntity(String dateDebut, String dateFin) throws Exception {
-                Map<Float, Float> result = new HashMap<>();
+       public Map<Integer, Float> PriceLocalisationEntity(String dateDebut, String dateFin) throws Exception {
+                Map<Integer, Float> result = new HashMap<>();
                 if (dateDebut == null) dateDebut="2010-05-24";
                 if (dateFin == null) dateFin="2012-05-24";
 		// Une requête SQL paramétrée
@@ -186,7 +186,7 @@ public class DAO {
                         ResultSet rs = stmt.executeQuery();                         
 			while (rs.next()) {
 				// On récupère les champs nécessaires de l'enregistrement courant
-				float codePostal = (float) rs.getInt("ZIP");
+				int codePostal = rs.getInt("ZIP");
 				float prix = rs.getFloat("TOTAL");
 				// On l'ajoute à la liste des résultats
 				result.put(codePostal, prix);
