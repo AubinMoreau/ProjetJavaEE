@@ -147,7 +147,7 @@ public class ConnectionControler extends HttpServlet {
                         String name = dao.nomClient(login, password);
                         session.setAttribute("userName",name);
                         session.setAttribute("id",password);
-                            }else { // On positionne un message d'erreur pour l'afficher dans la JSP
+                            }else{ // On positionne un message d'erreur pour l'afficher dans la JSP
                                 request.setAttribute("errorMessage", "Login/Password incorrect");
                             }
             }

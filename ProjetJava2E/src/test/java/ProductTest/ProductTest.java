@@ -48,7 +48,7 @@ public class ProductTest {
     }
     
     @Test
-    public void verifAjoutCommande() throws SQLException{
+    public void verifNumberPurchase() throws SQLException{
         List<PurchaseEntity> commande = myDAO.produitClient("1");
         int nb_commande = commande.size();
         assertTrue(nb_commande==1);
