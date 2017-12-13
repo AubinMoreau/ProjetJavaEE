@@ -7,6 +7,7 @@ package ProductTest;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import javax.sql.DataSource;
 import model.DAO;
@@ -37,13 +38,13 @@ public class ProductTest {
     @Test
     public void verifPurchaseForCustomer() throws SQLException {
         String id ="1";
-        assertTrue(myDAO.produitClient(id).size()!=0);
+        assertTrue(!myDAO.produitClient(id).isEmpty());
     }
     
     @Test
     public void verifPurchaseForNoCustomer() throws SQLException {
         String id ="105";
-        assertFalse(myDAO.produitClient(id).size()!=0);
+        assertTrue(myDAO.produitClient(id).isEmpty());
     }
     
     @Test

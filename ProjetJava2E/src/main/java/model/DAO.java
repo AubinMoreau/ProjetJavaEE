@@ -30,7 +30,13 @@ public class DAO {
 	public DAO(DataSource dataSource) {
 		this.myDataSource = dataSource;
 	}
-        
+        /**
+         * Vérifie si le client existe bien dans la base de données, avec son email et son id
+         * @param email
+         * @param id
+         * @return
+         * @throws SQLException 
+         */
         public boolean verifClientConnexion(String email,String id) throws SQLException {
             boolean verif = false;
             String sql = "SELECT COUNT(*) AS Nombre FROM CUSTOMER WHERE EMAIL=? AND CUSTOMER_ID=? ";
@@ -51,7 +57,13 @@ public class DAO {
             return verif;
         }
 }
-        
+        /**
+         * Renvoie le nom du client en fonction de son email et son id
+         * @param email
+         * @param id
+         * @return
+         * @throws SQLException 
+         */
         public String nomClient(String email,String id) throws SQLException{
             String result = "";
             String sql = "SELECT NAME FROM CUSTOMER WHERE EMAIL=? AND CUSTOMER_ID=? ";
@@ -113,6 +125,11 @@ public class DAO {
                 return result;
         }
 }
+        /**
+         * Ajoute une commande à la table Purchase_order
+         * @param commande
+         * @throws SQLException 
+         */
         public void ajoutCommande(PurchaseEntity commande) throws SQLException {
             
             String sql = "SELECT MAX(order_num)+1 FROM PURCHASE_ORDER";
@@ -141,7 +158,13 @@ public class DAO {
                 stmt.executeUpdate();
             }
      }
-        
+        /**
+         * Créer la Map utilisée par le graphique du Chiffre d'affaire par Catégorie
+         * @param dateDebut
+         * @param dateFin
+         * @return
+         * @throws Exception 
+         */
         public Map<String, Float> PriceCategoryEntity(String dateDebut, String dateFin) throws Exception {
                 Map<String, Float> result = new HashMap<>();
                 if (dateDebut == null) dateDebut="2010-05-24";
@@ -168,7 +191,13 @@ public class DAO {
 		return result;
 	}
        
-       
+       /**
+        * Créer la Map utilisée par le graphique du Chiffre d'affaire par code Postal
+        * @param dateDebut
+        * @param dateFin
+        * @return
+        * @throws Exception 
+        */
        public Map<Integer, Float> PriceLocalisationEntity(String dateDebut, String dateFin) throws Exception {
                 Map<Integer, Float> result = new HashMap<>();
                 if (dateDebut == null) dateDebut="2010-05-24";
@@ -194,7 +223,13 @@ public class DAO {
 		}
 		return result;
 	}
-	
+	/**
+         * Créer la Map utilisée par le graphique du Chiffre d'affaire par Client
+         * @param dateDebut
+         * @param dateFin
+         * @return
+         * @throws Exception 
+         */
 	public Map<String, Float> TurnoverClient(String dateDebut, String dateFin) throws Exception {
                 Map<String, Float> result = new HashMap<>();
                 if (dateDebut == null) dateDebut="2010-05-24";
